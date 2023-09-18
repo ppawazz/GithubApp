@@ -30,14 +30,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         showLoading(true)
-        userAdapter = UserAdapter()
+        userAdapter = UserAdapter(this)
         binding.rvUser.adapter = userAdapter
         binding.rvUser.layoutManager = LinearLayoutManager(this)
 
         viewModel.getUsersLiveData().observe(this) { githubResponse ->
             showLoading(false)
             if (githubResponse != null) {
-                binding.rvUser.adapter = UserAdapter(). apply {
+                binding.rvUser.adapter = UserAdapter(this). apply {
                     submitList(githubResponse)
                 }
             }

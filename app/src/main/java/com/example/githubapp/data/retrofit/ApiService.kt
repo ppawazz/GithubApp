@@ -15,12 +15,15 @@ interface ApiService {
     fun getGithubSearch(
         @Query("q") query: String
     ): Call<GithubResponse>
+    @Headers("Authorization: token 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")
     @GET("users/{username}")
     fun getDetailUser(@Path("username") username: String
     ): Call<DetailUserResponse>
+    @Headers("Authorization: token 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")
     @GET("users/{username}/followers")
     fun getFollowers(@Path("username") username: String
     ): Call<List<ItemsItem>>
+    @Headers("Authorization: token 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")
     @GET("users/{username}/following")
     fun getFollowing(@Path("username") username: String
     ): Call<List<ItemsItem>>

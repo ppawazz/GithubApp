@@ -1,5 +1,7 @@
 package com.example.githubapp.ui
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.githubapp.data.response.ItemsItem
 import com.example.githubapp.databinding.ItemUserBinding
 
-class UserAdapter: ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(object : DiffUtil.ItemCallback<ItemsItem>() {
+class UserAdapter(private val context: Context): ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(object : DiffUtil.ItemCallback<ItemsItem>() {
     override fun areItemsTheSame(oldItem: ItemsItem, newItem: ItemsItem): Boolean {
         return oldItem == newItem
     }
@@ -37,7 +39,13 @@ class UserAdapter: ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(object : Dif
 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val user = getItem(position)
+        holder.bind(user)
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, DetailUserActivity::class.java)
+            intent.putExtra("username", user.login)
+            context.startActivity(intent)
+        }
     }
 
 }
