@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.githubapp.data.response.GithubResponse
+import com.example.githubapp.data.response.ItemsItem
 import com.example.githubapp.data.retrofit.ApiConfig
 import retrofit2.Call
 import retrofit2.Callback
@@ -17,7 +18,11 @@ class MainViewModel : ViewModel() {
     }
 
     private val apiService = ApiConfig.getApiService()
-    private val userListLiveData = MutableLiveData<GithubResponse>()
+    private val userListLiveData = MutableLiveData<List<ItemsItem>>()
+
+    init {
+        searchUsers("daffa")
+    }
 
     fun searchUsers(query: String) {
         apiService.getGithubSearch(query).enqueue(object : Callback<GithubResponse> {
@@ -26,7 +31,7 @@ class MainViewModel : ViewModel() {
                 response: Response<GithubResponse>
             ) {
                 if (response.isSuccessful) {
-                    userListLiveData.value = response.body()
+                    userListLiveData.value = response.body()?.items as List<ItemsItem>
                 } else {
                     Log.e(TAG, "Error response body: ${response.errorBody()?.string()}")
                 }
@@ -38,7 +43,7 @@ class MainViewModel : ViewModel() {
         })
     }
 
-    fun getUsersLiveData(): LiveData<GithubResponse> {
+    fun getUsersLiveData(): LiveData<List<ItemsItem>> {
         return userListLiveData
     }
 }

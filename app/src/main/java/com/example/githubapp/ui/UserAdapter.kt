@@ -2,12 +2,23 @@ package com.example.githubapp.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.githubapp.data.response.ItemsItem
 import com.example.githubapp.databinding.ItemUserBinding
 
-class UserAdapter(private var userList: List<ItemsItem>) : RecyclerView.Adapter<UserAdapter.MyViewHolder>() {
+class UserAdapter: ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(object : DiffUtil.ItemCallback<ItemsItem>() {
+    override fun areItemsTheSame(oldItem: ItemsItem, newItem: ItemsItem): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItem: ItemsItem, newItem: ItemsItem): Boolean {
+        return oldItem == newItem
+    }
+
+})  {
 
     class MyViewHolder(private val binding: ItemUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -24,15 +35,9 @@ class UserAdapter(private var userList: List<ItemsItem>) : RecyclerView.Adapter<
         return MyViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = userList.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val user = userList[position]
-        user?.let { holder.bind(it) }
+        holder.bind(getItem(position))
     }
 
-    fun setData(newList: List<ItemsItem>) {
-        userList = newList
-        notifyDataSetChanged()
-    }
 }

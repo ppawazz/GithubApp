@@ -29,24 +29,26 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        userAdapter = UserAdapter(ArrayList())
+        showLoading(true)
+        userAdapter = UserAdapter()
         binding.rvUser.adapter = userAdapter
         binding.rvUser.layoutManager = LinearLayoutManager(this)
 
         viewModel.getUsersLiveData().observe(this) { githubResponse ->
             showLoading(false)
-            if (githubResponse?.items != null) {
-                userAdapter.setData(githubResponse.items)
+            if (githubResponse != null) {
+                binding.rvUser.adapter = UserAdapter(). apply {
+                    submitList(githubResponse)
+                }
             }
             Log.d("TAG", "response: $githubResponse")
         }
 
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
-            searchView.editText.setOnEditorActionListener { _, actionId, _ ->
+            searchView.editText.setOnEditorActionListener { textView, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    val query = searchBar.text.toString()
-                    viewModel.searchUsers(query)
+                    viewModel.searchUsers(textView.text.toString())
                     showLoading(true)
                     searchView.hide()
                     return@setOnEditorActionListener true
