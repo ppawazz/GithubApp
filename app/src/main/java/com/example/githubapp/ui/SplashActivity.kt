@@ -9,7 +9,7 @@ import com.example.githubapp.R
 
 class SplashActivity : AppCompatActivity() {
 
-    private val SplashDelay: Long = 3000
+    private val SPLASH_DELAY: Long = 3000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +19,6 @@ class SplashActivity : AppCompatActivity() {
             val intent = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
-        }, SplashDelay)
+        }, SPLASH_DELAY)
     }
 }

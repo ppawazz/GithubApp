@@ -30,21 +30,25 @@ class MainViewModel : ViewModel() {
                 call: Call<GithubResponse>,
                 response: Response<GithubResponse>
             ) {
-                if (response.isSuccessful) {
-                    userListLiveData.value = response.body()?.items as List<ItemsItem>
-                } else {
-                    Log.e(TAG, "Error response body: ${response.errorBody()?.string()}")
-                }
+                handleResponse(response)
             }
 
             override fun onFailure(call: Call<GithubResponse>, t: Throwable) {
-                Log.e(TAG,"Error: ${t.message}", t)
+                Log.e(TAG, "Error: ${t.message}", t)
             }
         })
+    }
+
+    private fun handleResponse(response: Response<GithubResponse>) {
+        if (response.isSuccessful) {
+            val items = response.body()?.items
+            userListLiveData.value = items ?: emptyList()
+        } else {
+            Log.e(TAG, "Error response body: ${response.errorBody()?.string()}")
+        }
     }
 
     fun getUsersLiveData(): LiveData<List<ItemsItem>> {
         return userListLiveData
     }
-
 }

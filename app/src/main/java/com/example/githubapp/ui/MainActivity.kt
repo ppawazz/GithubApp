@@ -7,7 +7,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.githubapp.data.response.GithubResponse
 import com.example.githubapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,45 +15,48 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var userAdapter: UserAdapter
 
-    private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        showLoading(true)
+        setupUI()
+        observeData()
+    }
+
+    private fun setupUI() {
         userAdapter = UserAdapter(this)
         binding.rvUser.adapter = userAdapter
         binding.rvUser.layoutManager = LinearLayoutManager(this)
 
+        binding.searchView.setupWithSearchBar(binding.searchBar)
+        binding.searchView.editText.setOnEditorActionListener { textView, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val query = textView.text.toString()
+                viewModel.searchUsers(query)
+                showLoading(true)
+                binding.searchView.hide()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+    }
+
+    private fun observeData() {
         viewModel.getUsersLiveData().observe(this) { githubResponse ->
             showLoading(false)
-            if (githubResponse != null) {
-                binding.rvUser.adapter = UserAdapter(this). apply {
-                    submitList(githubResponse)
-                }
+            githubResponse?.let {
+                userAdapter.submitList(it)
             }
             Log.d("TAG", "response: $githubResponse")
         }
+    }
 
-        with(binding) {
-            searchView.setupWithSearchBar(searchBar)
-            searchView.editText.setOnEditorActionListener { textView, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    viewModel.searchUsers(textView.text.toString())
-                    showLoading(true)
-                    searchView.hide()
-                    return@setOnEditorActionListener true
-                }
-                false
-            }
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
         }
     }
 }

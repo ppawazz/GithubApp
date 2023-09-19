@@ -11,16 +11,8 @@ import com.bumptech.glide.Glide
 import com.example.githubapp.data.response.ItemsItem
 import com.example.githubapp.databinding.ItemUserBinding
 
-class UserAdapter(private val context: Context): ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(object : DiffUtil.ItemCallback<ItemsItem>() {
-    override fun areItemsTheSame(oldItem: ItemsItem, newItem: ItemsItem): Boolean {
-        return oldItem == newItem
-    }
-
-    override fun areContentsTheSame(oldItem: ItemsItem, newItem: ItemsItem): Boolean {
-        return oldItem == newItem
-    }
-
-})  {
+class UserAdapter(private val context: Context) :
+    ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(UserDiffCallback()) {
 
     class MyViewHolder(private val binding: ItemUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -37,7 +29,6 @@ class UserAdapter(private val context: Context): ListAdapter<ItemsItem, UserAdap
         return MyViewHolder(binding)
     }
 
-
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val user = getItem(position)
         holder.bind(user)
@@ -47,5 +38,14 @@ class UserAdapter(private val context: Context): ListAdapter<ItemsItem, UserAdap
             context.startActivity(intent)
         }
     }
+}
 
+class UserDiffCallback : DiffUtil.ItemCallback<ItemsItem>() {
+    override fun areItemsTheSame(oldItem: ItemsItem, newItem: ItemsItem): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItem: ItemsItem, newItem: ItemsItem): Boolean {
+        return oldItem == newItem
+    }
 }
