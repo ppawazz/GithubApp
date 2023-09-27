@@ -43,8 +43,8 @@ class DetailUserActivity : AppCompatActivity() {
         if (username != null) {
             sectionsPagerAdapter.username = username
         }
-        binding.viewPager.adapter = sectionsPagerAdapter
 
+        binding.viewPager.adapter = sectionsPagerAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> getString(R.string.tab_follower)

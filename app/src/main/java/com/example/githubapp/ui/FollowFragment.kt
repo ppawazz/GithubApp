@@ -9,17 +9,21 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubapp.R
+import com.example.githubapp.databinding.FragmentFollowBinding
 
 class FollowFragment : Fragment() {
 
     private val viewModel: DetailUserViewModel by viewModels()
     private lateinit var userAdapter: UserAdapter
+    private var _binding: FragmentFollowBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_follow, container, false)
+    ): View {
+        _binding = FragmentFollowBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,10 +32,8 @@ class FollowFragment : Fragment() {
         val position = arguments?.getInt(ARG_POSITION) ?: 1
         val username = arguments?.getString(ARG_USERNAME) ?: ""
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.rv_follow)
         userAdapter = UserAdapter(requireContext())
-
-        recyclerView.apply {
+        binding.rvFollow.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = userAdapter
         }
@@ -47,6 +49,11 @@ class FollowFragment : Fragment() {
                 userAdapter.submitList(followingList)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
