@@ -9,8 +9,6 @@ import com.example.githubapp.R
 
 class SplashActivity : AppCompatActivity() {
 
-    private val SPLASH_DELAY: Long = 3000
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -19,6 +17,10 @@ class SplashActivity : AppCompatActivity() {
             val intent = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
-        }, SPLASH_DELAY)
+        }, Companion.SPLASH_DELAY)
+    }
+
+    companion object {
+        private const val SPLASH_DELAY: Long = 2000
     }
 }

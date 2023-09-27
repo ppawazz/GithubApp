@@ -11,10 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.githubapp.R
 
 class FollowFragment : Fragment() {
-    companion object {
-        const val ARG_POSITION = "position"
-        const val ARG_USERNAME = "username"
-    }
 
     private val viewModel: DetailUserViewModel by viewModels()
     private lateinit var userAdapter: UserAdapter
@@ -51,5 +47,10 @@ class FollowFragment : Fragment() {
                 userAdapter.submitList(followingList)
             }
         }
+    }
+
+    companion object {
+        const val ARG_POSITION = "position"
+        const val ARG_USERNAME = "username"
     }
 }

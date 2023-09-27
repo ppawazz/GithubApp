@@ -34,7 +34,7 @@ class MainViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<GithubResponse>, t: Throwable) {
-                Log.e(TAG, "Error: ${t.message}", t)
+
             }
         })
     }
