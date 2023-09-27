@@ -56,5 +56,6 @@ class DetailUserActivity : AppCompatActivity() {
                 else -> ""
             }
         }.attach()
+
     }
 }
