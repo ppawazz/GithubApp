@@ -13,12 +13,10 @@ import retrofit2.Response
 
 class MainViewModel : ViewModel() {
 
-    companion object {
-        private const val TAG = "MainViewModel"
-    }
-
     private val apiService = ApiConfig.getApiService()
-    private val userListLiveData = MutableLiveData<List<ItemsItem>>()
+
+    private val _userListLiveData = MutableLiveData<List<ItemsItem>>()
+    val userListLiveData : LiveData<List<ItemsItem>>  = _userListLiveData
 
     init {
         searchUsers("daffa")
@@ -26,29 +24,22 @@ class MainViewModel : ViewModel() {
 
     fun searchUsers(query: String) {
         apiService.getGithubSearch(query).enqueue(object : Callback<GithubResponse> {
-            override fun onResponse(
-                call: Call<GithubResponse>,
-                response: Response<GithubResponse>
-            ) {
-                handleResponse(response)
+            override fun onResponse(call: Call<GithubResponse>, response: Response<GithubResponse>) {
+                if (response.isSuccessful) {
+                    val items = response.body()?.items
+                    _userListLiveData.value = items ?: emptyList()
+                } else {
+                    Log.e(TAG, "Error response body: ${response.errorBody()?.string()}")
+                }
             }
 
             override fun onFailure(call: Call<GithubResponse>, t: Throwable) {
-
+                Log.e(TAG, "Error: ${t.message}", t)
             }
         })
     }
 
-    private fun handleResponse(response: Response<GithubResponse>) {
-        if (response.isSuccessful) {
-            val items = response.body()?.items
-            userListLiveData.value = items ?: emptyList()
-        } else {
-            Log.e(TAG, "Error response body: ${response.errorBody()?.string()}")
-        }
-    }
-
-    fun getUsersLiveData(): LiveData<List<ItemsItem>> {
-        return userListLiveData
+    companion object {
+        private const val TAG = "MainViewModel"
     }
 }

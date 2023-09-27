@@ -23,24 +23,20 @@ class DetailUserActivity : AppCompatActivity() {
             viewModel.userDetailLiveData.observe(this) { userDetail ->
                 binding.tvName.text = userDetail.name
                 binding.tvUsername.text = userDetail.login
+
+                val followersCount = userDetail.followers
+                val followingCount = userDetail.following
+
+                val followersText = "$followersCount Followers"
+                binding.tvFollowers.text = followersText
+
+                val followingText = "$followingCount Following"
+                binding.tvFollowing.text = followingText
+
+                Glide.with(this)
+                    .load(userDetail.avatarUrl)
+                    .into(binding.ivProfil)
             }
-        }
-        viewModel.userDetailLiveData.observe(this) { userDetail ->
-            val followersCount = userDetail.followers
-            val followingCount = userDetail.following
-
-            val followersText = "$followersCount Followers"
-            binding.tvFollowers.text = followersText
-
-            val followingText = "$followingCount Following"
-            binding.tvFollowing.text = followingText
-
-            binding.tvName.text = userDetail.name
-            binding.tvUsername.text = userDetail.login
-
-            Glide.with(this)
-                .load(userDetail.avatarUrl)
-                .into(binding.ivProfil)
         }
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
