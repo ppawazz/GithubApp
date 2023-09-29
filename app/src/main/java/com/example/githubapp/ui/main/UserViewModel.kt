@@ -1,4 +1,4 @@
-package com.example.githubapp.ui
+package com.example.githubapp.ui.main
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -11,7 +11,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel : ViewModel() {
+class UserViewModel : ViewModel() {
 
     private val apiService = ApiConfig.getApiService()
 

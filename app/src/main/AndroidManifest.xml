@@ -15,10 +15,16 @@
         android:theme="@style/Theme.GithubApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.DetailUserActivity"
+            android:name=".ui.settings.ThemeActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".ui.favorite.FavoriteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.detail.DetailUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true" />
     </application>
 

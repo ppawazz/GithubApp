@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/navy"
     android:orientation="vertical"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.main.MainActivity">
 
     <com.google.android.material.search.SearchBar
         android:id="@+id/searchBar"

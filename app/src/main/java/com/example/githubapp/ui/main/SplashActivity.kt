@@ -1,4 +1,4 @@
-package com.example.githubapp.ui
+package com.example.githubapp.ui.main
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
             val intent = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
-        }, Companion.SPLASH_DELAY)
+        }, SPLASH_DELAY)
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package com.example.githubapp.ui
+package com.example.githubapp.ui.main
 
 import android.content.Context
 import android.content.Intent
@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.githubapp.data.response.ItemsItem
 import com.example.githubapp.databinding.ItemUserBinding
+import com.example.githubapp.ui.detail.DetailUserActivity
 
 class UserAdapter(private val context: Context) :
     ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(UserDiffCallback()) {
