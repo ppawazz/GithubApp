@@ -35,7 +35,7 @@ class UserAdapter(private val context: Context) :
         holder.bind(user)
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetailUserActivity::class.java)
-            intent.putExtra("username", user.login)
+            intent.putExtra(DetailUserActivity.USERNAME, user.login)
             context.startActivity(intent)
         }
     }

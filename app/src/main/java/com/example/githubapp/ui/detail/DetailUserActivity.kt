@@ -2,6 +2,7 @@ package com.example.githubapp.ui.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.example.githubapp.R
@@ -27,7 +28,7 @@ class DetailUserActivity : AppCompatActivity() {
         }
         favoriteUser = FavoriteUser()
 
-        val username = intent.getStringExtra("username")
+        val username = intent.getStringExtra(USERNAME)
         if (username != null) {
             viewModel.getUserDetail(username)
             viewModel.userDetailLiveData.observe(this) { userDetail ->
@@ -51,24 +52,40 @@ class DetailUserActivity : AppCompatActivity() {
                 Glide.with(this)
                     .load(userDetail.avatarUrl)
                     .into(binding.ivProfil)
-            }
 
-            favviewModel.isFavorited(username).observe(this) {
-                if (it != null) {
-                    binding.fab.setImageResource(R.drawable.ic_favo)
-                    binding.fab.setOnClickListener {
-                        favviewModel.deleteFavUser(username)
-                    }
-                } else {
-                    binding.fab.setImageResource(R.drawable.ic_unfavo)
-                    binding.fab.setOnClickListener {
-                        favviewModel.insertFavUser(favoriteUser!!)
+                favviewModel.isFavorited(username).observe(this) {
+                    if (it != null) {
+                        binding.fab.setImageResource(R.drawable.ic_favo)
+                        binding.fab.setOnClickListener {
+                            favviewModel.deleteFavUser(username)
+                            Toast.makeText(
+                                this,
+                                "Berhasil di hapus dari favorit",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                        val user = FavoriteUser(userDetail.login as String, userDetail.avatarUrl)
+                        binding.fab.setImageResource(R.drawable.ic_unfavo)
+                        binding.fab.setOnClickListener {
+                            favviewModel.insertFavUser(user)
+                            Toast.makeText(
+                                this,
+                                "Berhasil di tambahkan ke favorit",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
             }
 
         }
 
+        viewModel.errorLiveData.observe(this) { errorMessage ->
+            if (errorMessage != null) {
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
         if (username != null) {
@@ -84,5 +101,9 @@ class DetailUserActivity : AppCompatActivity() {
             }
         }.attach()
 
+    }
+
+    companion object {
+        const val USERNAME = "username_extra"
     }
 }

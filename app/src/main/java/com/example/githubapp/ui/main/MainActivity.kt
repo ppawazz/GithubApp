@@ -53,11 +53,13 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+
                 R.id.menu_setting -> {
                     val intent = Intent(this, ThemeActivity::class.java)
                     startActivity(intent)
                     true
                 }
+
                 else -> false
             }
         }

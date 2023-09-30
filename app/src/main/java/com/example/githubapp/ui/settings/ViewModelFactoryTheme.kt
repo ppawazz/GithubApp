@@ -3,7 +3,8 @@ package com.example.githubapp.ui.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class ViewModelFactoryTheme(private val pref: SettingPreferences) : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactoryTheme(private val pref: SettingPreferences) :
+    ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

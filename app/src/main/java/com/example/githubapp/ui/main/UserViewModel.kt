@@ -16,7 +16,7 @@ class UserViewModel : ViewModel() {
     private val apiService = ApiConfig.getApiService()
 
     private val _userListLiveData = MutableLiveData<List<ItemsItem>>()
-    val userListLiveData : LiveData<List<ItemsItem>>  = _userListLiveData
+    val userListLiveData: LiveData<List<ItemsItem>> = _userListLiveData
 
     init {
         searchUsers("daffa")
@@ -24,7 +24,10 @@ class UserViewModel : ViewModel() {
 
     fun searchUsers(query: String) {
         apiService.getGithubSearch(query).enqueue(object : Callback<GithubResponse> {
-            override fun onResponse(call: Call<GithubResponse>, response: Response<GithubResponse>) {
+            override fun onResponse(
+                call: Call<GithubResponse>,
+                response: Response<GithubResponse>
+            ) {
                 if (response.isSuccessful) {
                     val items = response.body()?.items
                     _userListLiveData.value = items ?: emptyList()

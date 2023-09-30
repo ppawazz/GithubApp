@@ -63,7 +63,7 @@ class DetailUserViewModel : ViewModel() {
             }
         })
     }
-    
+
     fun getFollowing(username: String) {
         apiService.getFollowing(username).enqueue(object : Callback<List<ItemsItem>> {
             override fun onResponse(
