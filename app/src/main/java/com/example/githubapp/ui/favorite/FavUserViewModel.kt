@@ -8,13 +8,12 @@ import com.example.githubapp.data.repository.FavoriteRepository
 class FavUserViewModel(private val favoriteRepository: FavoriteRepository) : ViewModel() {
 
     fun getAllFavorite() :LiveData<List<FavoriteUser>> = favoriteRepository.getAllFavorite()
+
+    fun isFavorited(username: String) : LiveData<FavoriteUser> = favoriteRepository.isFavorited(username)
     fun insertFavUser(favoriteUser: FavoriteUser) {
         favoriteRepository.insertFavUser(favoriteUser)
     }
-    fun updateFavUser(favoriteUser: FavoriteUser) {
-        favoriteRepository.updateFavUser(favoriteUser)
-    }
-    fun deleteFavUser(favoriteUser: FavoriteUser) {
-        favoriteRepository.deleteFavUser(favoriteUser)
+    fun deleteFavUser(username: String) {
+        favoriteRepository.deleteFavUser(username)
     }
 }

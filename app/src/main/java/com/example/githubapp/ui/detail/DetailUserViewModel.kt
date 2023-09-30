@@ -25,6 +25,7 @@ class DetailUserViewModel : ViewModel() {
     private val _errorLiveData = MutableLiveData<String>()
     val errorLiveData: LiveData<String> = _errorLiveData
 
+
     fun getUserDetail(username: String) {
         apiService.getDetailUser(username).enqueue(object : Callback<DetailUserResponse> {
             override fun onResponse(
